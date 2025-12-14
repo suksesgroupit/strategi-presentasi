@@ -1670,9 +1670,106 @@
                 star.draw();
             });
 
+            // Draw meteor trails
+            meteors = meteors.filter(m => m.life > 0);
+            meteors.forEach(meteor => {
+                meteor.update();
+                meteor.draw();
+            });
+
             requestAnimationFrame(animateStars);
         }
         animateStars();
+
+        // Meteor / Shooting Star class
+        class Meteor {
+            constructor(startX, startY, endX, endY) {
+                this.startX = startX;
+                this.startY = startY;
+                this.endX = endX;
+                this.endY = endY;
+                this.currentX = startX;
+                this.currentY = startY;
+                this.life = 1;
+                this.decay = 0.02;
+                this.trail = [];
+                this.maxTrailLength = 20;
+                this.progress = 0;
+                this.speed = 0.05;
+                this.color = this.getRandomColor();
+            }
+
+            getRandomColor() {
+                const colors = [
+                    { r: 59, g: 130, b: 246 },   // blue
+                    { r: 139, g: 92, b: 246 },   // purple
+                    { r: 16, g: 185, b: 129 },   // green
+                    { r: 245, g: 158, b: 11 },   // orange
+                    { r: 255, g: 255, b: 255 },  // white
+                ];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            update() {
+                // Add current position to trail
+                this.trail.push({ x: this.currentX, y: this.currentY, alpha: 1 });
+
+                // Limit trail length
+                if (this.trail.length > this.maxTrailLength) {
+                    this.trail.shift();
+                }
+
+                // Fade trail points
+                this.trail.forEach((point, i) => {
+                    point.alpha = (i / this.trail.length) * this.life;
+                });
+
+                this.life -= this.decay;
+            }
+
+            draw() {
+                // Draw the trail
+                if (this.trail.length > 1) {
+                    for (let i = 1; i < this.trail.length; i++) {
+                        const prev = this.trail[i - 1];
+                        const curr = this.trail[i];
+                        const alpha = curr.alpha;
+                        const width = (i / this.trail.length) * 4;
+
+                        ctx.beginPath();
+                        ctx.moveTo(prev.x, prev.y);
+                        ctx.lineTo(curr.x, curr.y);
+                        ctx.strokeStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${alpha})`;
+                        ctx.lineWidth = width;
+                        ctx.lineCap = 'round';
+                        ctx.stroke();
+
+                        // Glow effect
+                        ctx.shadowBlur = 15;
+                        ctx.shadowColor = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${alpha})`;
+                    }
+                }
+
+                // Draw head of meteor
+                const head = this.trail[this.trail.length - 1];
+                if (head) {
+                    ctx.beginPath();
+                    ctx.arc(head.x, head.y, 3 * this.life, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, 255, 255, ${this.life})`;
+                    ctx.shadowBlur = 20;
+                    ctx.shadowColor = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, 1)`;
+                    ctx.fill();
+                }
+
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        let meteors = [];
+        let dragStartX = 0;
+        let dragStartY = 0;
+        let isDragging = false;
+        let dragTrail = [];
 
         // Mouse move handler
         let isMoving = false;
@@ -1684,27 +1781,88 @@
             if (distance > 5) {
                 const count = Math.min(Math.floor(distance / 10), 5);
                 createStars(x, y, count);
+
+                // Add to drag trail for shooting star effect
+                if (isDragging) {
+                    dragTrail.push({ x, y });
+
+                    // Create meteor effect
+                    if (dragTrail.length > 2) {
+                        const meteor = new Meteor(
+                            dragTrail[dragTrail.length - 2].x,
+                            dragTrail[dragTrail.length - 2].y,
+                            x, y
+                        );
+                        meteor.trail = [...dragTrail.slice(-10).map(p => ({ x: p.x, y: p.y, alpha: 1 }))];
+                        meteors.push(meteor);
+                    }
+                }
+
                 lastMouseX = x;
                 lastMouseY = y;
             }
         }
 
         // Desktop mouse events
+        document.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+            dragTrail = [{ x: e.clientX, y: e.clientY }];
+        });
+
+        document.addEventListener('mouseup', (e) => {
+            if (isDragging && dragTrail.length > 3) {
+                // Create final shooting star from drag path
+                const meteor = new Meteor(dragStartX, dragStartY, e.clientX, e.clientY);
+                meteor.trail = dragTrail.map(p => ({ x: p.x, y: p.y, alpha: 1 }));
+                meteor.maxTrailLength = dragTrail.length;
+                meteors.push(meteor);
+            }
+            isDragging = false;
+            dragTrail = [];
+        });
+
         document.addEventListener('mousemove', (e) => {
             handleMove(e.clientX, e.clientY);
         });
 
         // Mobile touch events
+        document.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            isDragging = true;
+            dragStartX = touch.clientX;
+            dragStartY = touch.clientY;
+            dragTrail = [{ x: touch.clientX, y: touch.clientY }];
+            lastMouseX = touch.clientX;
+            lastMouseY = touch.clientY;
+            createStars(touch.clientX, touch.clientY, 8);
+        }, { passive: true });
+
         document.addEventListener('touchmove', (e) => {
             const touch = e.touches[0];
             handleMove(touch.clientX, touch.clientY);
         }, { passive: true });
 
-        document.addEventListener('touchstart', (e) => {
-            const touch = e.touches[0];
-            lastMouseX = touch.clientX;
-            lastMouseY = touch.clientY;
-            createStars(touch.clientX, touch.clientY, 8);
+        document.addEventListener('touchend', (e) => {
+            if (isDragging && dragTrail.length > 3) {
+                // Create shooting star from drag path
+                const lastPoint = dragTrail[dragTrail.length - 1];
+                const meteor = new Meteor(dragStartX, dragStartY, lastPoint.x, lastPoint.y);
+                meteor.trail = dragTrail.map(p => ({ x: p.x, y: p.y, alpha: 1 }));
+                meteor.maxTrailLength = dragTrail.length;
+                meteors.push(meteor);
+
+                // Burst of stars at end
+                for (let i = 0; i < 10; i++) {
+                    const star = new Star(lastPoint.x, lastPoint.y);
+                    star.speedX = (Math.random() - 0.5) * 6;
+                    star.speedY = (Math.random() - 0.5) * 6;
+                    stars.push(star);
+                }
+            }
+            isDragging = false;
+            dragTrail = [];
         }, { passive: true });
 
         // Click/tap creates burst of stars

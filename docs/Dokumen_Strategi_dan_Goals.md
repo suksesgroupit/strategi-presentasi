@@ -7,6 +7,18 @@
 
 ---
 
+<div align="center">
+
+![QR Code](../public/qrcode.svg)
+
+**📱 Scan untuk pengalaman membaca lebih menyenangkan**
+
+*Buka versi web interaktif dengan animasi dan efek visual*
+
+</div>
+
+---
+
 ## 1. Strategi Penghematan Perusahaan
 
 ### 1.1 Jalankan Orlansoft Web
