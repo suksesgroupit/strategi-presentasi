@@ -1,0 +1,254 @@
+/* Interaction Styles - Click/Touch Effects */
+
+/* Ripple effect base */
+.ripple-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(0);
+    animation: ripple-effect 0.6s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes ripple-effect {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Card click effect */
+.card:active {
+    transform: scale(0.98);
+    transition: transform 0.1s;
+}
+
+/* Impact item click */
+.impact-item {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.impact-item:active {
+    transform: scale(0.95);
+    transition: transform 0.1s;
+}
+
+.impact-item:active .icon {
+    animation: bounce-icon 0.3s ease;
+}
+
+@keyframes bounce-icon {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.3);
+    }
+}
+
+/* Goal card click */
+.goal-card {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.goal-card:active {
+    transform: scale(0.97);
+    transition: transform 0.1s;
+}
+
+.goal-card:active .icon {
+    animation: wiggle 0.3s ease;
+}
+
+@keyframes wiggle {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(-10deg);
+    }
+
+    75% {
+        transform: rotate(10deg);
+    }
+}
+
+/* Skill card click */
+.skill-card {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-card:active {
+    transform: scale(0.95);
+    transition: transform 0.1s;
+}
+
+.skill-card:active .icon {
+    animation: pop-icon 0.3s ease;
+}
+
+@keyframes pop-icon {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.4) rotate(5deg);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Status badge click */
+.status-badge {
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.status-badge:active {
+    transform: scale(0.95);
+}
+
+.status-badge:hover {
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.status-badge.warning:hover {
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+}
+
+/* Requirement item click */
+.requirement-item {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.requirement-item:active {
+    transform: translateX(8px) scale(0.98);
+    transition: transform 0.1s;
+}
+
+.requirement-item:active .requirement-number {
+    animation: pulse-number 0.3s ease;
+}
+
+@keyframes pulse-number {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+/* Card number glow on tap */
+.card-number {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:active .card-number {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+
+.card:active .card-number.orange {
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+}
+
+.card:active .card-number.green {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+}
+
+/* Hero badge pulse on click */
+.hero-badge {
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.hero-badge:active {
+    transform: scale(0.95);
+}
+
+.hero-badge:hover {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+
+/* Quote section interaction */
+.quote-section {
+    cursor: pointer;
+    transition: transform 0.3s, border-color 0.3s;
+}
+
+.quote-section:active {
+    transform: scale(0.98);
+}
+
+.quote-section:hover {
+    border-color: rgba(139, 92, 246, 0.3);
+}
+
+/* Nav link press effect */
+.nav-links a {
+    position: relative;
+    padding: 8px 0;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gradient-1);
+    transition: width 0.3s;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Personal image hover zoom */
+.personal-image {
+    overflow: hidden;
+}
+
+.personal-image img {
+    transition: transform 0.5s;
+}
+
+.personal-image:hover img {
+    transform: scale(1.05);
+}
+
+/* Card image hover */
+.card-image img {
+    transition: transform 0.5s;
+}
+
+.card-image:hover img {
+    transform: scale(1.03);
+}
