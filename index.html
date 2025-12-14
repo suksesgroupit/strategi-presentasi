@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,8 @@
     <meta name="description" content="Dokumen strategi untuk kemajuan perusahaan - Disusun oleh Andri Rosandi">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -52,19 +54,119 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
-                radial-gradient(ellipse at 20% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 70%);
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
             z-index: -1;
-            animation: bgMove 20s ease-in-out infinite;
+            animation: bgMove 15s ease-in-out infinite;
         }
 
         @keyframes bgMove {
-            0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(-20px, 20px); }
-            50% { transform: translate(20px, -20px); }
-            75% { transform: translate(-10px, -10px); }
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            25% {
+                transform: translate(-30px, 30px) scale(1.05);
+            }
+
+            50% {
+                transform: translate(30px, -30px) scale(1);
+            }
+
+            75% {
+                transform: translate(-15px, -15px) scale(1.02);
+            }
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(59, 130, 246, 0.5);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        .particle:nth-child(2) {
+            left: 20%;
+            animation-delay: -5s;
+            background: rgba(139, 92, 246, 0.5);
+        }
+
+        .particle:nth-child(3) {
+            left: 40%;
+            animation-delay: -10s;
+            background: rgba(16, 185, 129, 0.5);
+        }
+
+        .particle:nth-child(4) {
+            left: 60%;
+            animation-delay: -15s;
+            background: rgba(245, 158, 11, 0.5);
+        }
+
+        .particle:nth-child(5) {
+            left: 80%;
+            animation-delay: -7s;
+            background: rgba(59, 130, 246, 0.5);
+        }
+
+        .particle:nth-child(6) {
+            left: 10%;
+            animation-delay: -3s;
+            background: rgba(139, 92, 246, 0.5);
+        }
+
+        .particle:nth-child(7) {
+            left: 70%;
+            animation-delay: -12s;
+            background: rgba(16, 185, 129, 0.5);
+        }
+
+        .particle:nth-child(8) {
+            left: 90%;
+            animation-delay: -18s;
+            background: rgba(245, 158, 11, 0.5);
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+                transform: translateY(80vh) scale(1);
+            }
+
+            90% {
+                opacity: 1;
+                transform: translateY(10vh) scale(1);
+            }
+
+            100% {
+                transform: translateY(-10vh) scale(0);
+                opacity: 0;
+            }
         }
 
         /* Container */
@@ -102,12 +204,13 @@
         }
 
         nav .logo {
-            font-weight: 700;
-            font-size: 14px;
+            font-weight: 800;
+            font-size: 18px;
             background: var(--gradient-1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            letter-spacing: -0.5px;
         }
 
         nav .nav-links {
@@ -159,7 +262,7 @@
             font-weight: 800;
             line-height: 1.1;
             margin-bottom: 24px;
-            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -217,9 +320,22 @@
         }
 
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-10px); }
-            60% { transform: translateX(-50%) translateY(-5px); }
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
         }
 
         /* Section Styles */
@@ -686,18 +802,90 @@
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(50px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(59, 130, 246, 0.5), 0 0 60px rgba(139, 92, 246, 0.3);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% center;
+            }
+
+            100% {
+                background-position: 200% center;
+            }
+        }
+
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+            transform: translateY(60px);
+            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         .reveal.active {
@@ -705,22 +893,134 @@
             transform: translateY(0);
         }
 
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.85);
+            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal-scale.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Stagger children animations */
+        .stagger-children>*:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+
+        .stagger-children>*:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .stagger-children>*:nth-child(3) {
+            transition-delay: 0.3s;
+        }
+
+        .stagger-children>*:nth-child(4) {
+            transition-delay: 0.4s;
+        }
+
+        .stagger-children>*:nth-child(5) {
+            transition-delay: 0.5s;
+        }
+
+        .stagger-children>*:nth-child(6) {
+            transition-delay: 0.6s;
+        }
+
+        /* Hover glow effects */
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .impact-item:hover {
+            transform: translateY(-6px) scale(1.02);
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .goal-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(16, 185, 129, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(16, 185, 129, 0.2);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(139, 92, 246, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(139, 92, 246, 0.2);
+        }
+
+        /* Section icon animation */
+        .section-icon {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Card number glow */
+        .card-number {
+            animation: glow 3s ease-in-out infinite;
+        }
+
         /* Divider */
         .divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-blue), var(--accent-purple), transparent);
             margin: 0 auto;
             max-width: 400px;
+            animation: shimmer 3s linear infinite;
+            background-size: 200% auto;
         }
     </style>
 </head>
+
 <body>
     <div class="bg-gradient"></div>
+
+    <!-- Floating Particles -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
 
     <!-- Navigation -->
     <nav id="nav">
         <div class="nav-content">
-            <div class="logo">Strategi & Goals</div>
+            <div class="logo">IT Andri</div>
             <div class="nav-links">
                 <a href="#penghematan">Penghematan</a>
                 <a href="#fraud">Anti Fraud</a>
@@ -734,8 +1034,9 @@
         <div class="hero-content">
             <span class="hero-badge">📄 Dokumen Strategi</span>
             <h1>Strategi Penghematan, Meminimalisir Fraud, dan Goals</h1>
-            <p>Dokumen pemikiran dan kontribusi untuk kemajuan perusahaan, sekaligus refleksi terhadap goals pribadi dan profesional.</p>
-            
+            <p>Dokumen pemikiran dan kontribusi untuk kemajuan perusahaan, sekaligus refleksi terhadap goals pribadi dan
+                profesional.</p>
+
             <div class="hero-meta">
                 <div class="hero-meta-item">
                     <span>Divisi</span>
@@ -751,7 +1052,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="scroll-indicator">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
@@ -778,8 +1079,10 @@
                     </div>
                 </div>
                 <div class="card-content">
-                    <p>Perusahaan saat ini masih menggunakan Orlansoft versi desktop yang dirilis pada tahun 2008 dan sudah tidak lagi mendapatkan dukungan resmi dari pengembang. Padahal, perusahaan sudah memiliki lisensi resmi Orlansoft Web yang lebih modern.</p>
-                    
+                    <p>Perusahaan saat ini masih menggunakan Orlansoft versi desktop yang dirilis pada tahun 2008 dan
+                        sudah tidak lagi mendapatkan dukungan resmi dari pengembang. Padahal, perusahaan sudah memiliki
+                        lisensi resmi Orlansoft Web yang lebih modern.</p>
+
                     <div class="impact-grid">
                         <div class="impact-item">
                             <div class="icon">🌐</div>
@@ -819,8 +1122,10 @@
                     </div>
                 </div>
                 <div class="card-content">
-                    <p>Saat ini server perusahaan tersebar di dua lokasi (PIK dan TPI), menimbulkan kebutuhan perawatan ganda dan biaya operasional tinggi. Rekomendasi: pusatkan ke kantor TPI yang sudah memiliki genset dan ruang server proper.</p>
-                    
+                    <p>Saat ini server perusahaan tersebar di dua lokasi (PIK dan TPI), menimbulkan kebutuhan perawatan
+                        ganda dan biaya operasional tinggi. Rekomendasi: pusatkan ke kantor TPI yang sudah memiliki
+                        genset dan ruang server proper.</p>
+
                     <div class="card-image">
                         <img src="public/server_consolidation.png" alt="Ilustrasi Konsolidasi Server">
                     </div>
@@ -860,8 +1165,10 @@
                     </div>
                 </div>
                 <div class="card-content">
-                    <p>Beberapa layanan masih berjalan di komputer biasa yang difungsikan sebagai server. Dengan investasi server enterprise, seluruh sistem dapat dipusatkan dengan infrastruktur yang kuat, stabil, dan mendukung VM & Docker.</p>
-                    
+                    <p>Beberapa layanan masih berjalan di komputer biasa yang difungsikan sebagai server. Dengan
+                        investasi server enterprise, seluruh sistem dapat dipusatkan dengan infrastruktur yang kuat,
+                        stabil, dan mendukung VM & Docker.</p>
+
                     <div class="impact-grid">
                         <div class="impact-item">
                             <div class="icon">🔒</div>
@@ -901,7 +1208,8 @@
             <div class="section-header reveal">
                 <span class="section-icon">🛡️</span>
                 <h2 class="section-title gradient-orange">Strategi Meminimalisir Fraud</h2>
-                <p class="section-subtitle">Langkah-langkah kontrol dan pencegahan untuk menjaga integritas perusahaan</p>
+                <p class="section-subtitle">Langkah-langkah kontrol dan pencegahan untuk menjaga integritas perusahaan
+                </p>
             </div>
 
             <!-- Card 2.1 -->
@@ -914,8 +1222,10 @@
                     </div>
                 </div>
                 <div class="card-content">
-                    <p>Masih sering terjadi pemberian tugas langsung ke staf tanpa melalui atasan atau koordinator, sehingga pengawasan sulit dan penanggung jawab tidak jelas. Setiap tugas harus disalurkan melalui jalur struktural yang benar.</p>
-                    
+                    <p>Masih sering terjadi pemberian tugas langsung ke staf tanpa melalui atasan atau koordinator,
+                        sehingga pengawasan sulit dan penanggung jawab tidak jelas. Setiap tugas harus disalurkan
+                        melalui jalur struktural yang benar.</p>
+
                     <div class="impact-grid">
                         <div class="impact-item">
                             <div class="icon">✅</div>
@@ -940,7 +1250,8 @@
                     </div>
 
                     <div style="margin-top: 24px;">
-                        <p style="font-size: 14px; color: var(--text-muted);">💡 <strong>Pendukung:</strong> Dapat dipertimbangkan penggunaan software task management (perlu riset & uji coba)</p>
+                        <p style="font-size: 14px; color: var(--text-muted);">💡 <strong>Pendukung:</strong> Dapat
+                            dipertimbangkan penggunaan software task management (perlu riset & uji coba)</p>
                     </div>
                 </div>
             </div>
@@ -955,8 +1266,9 @@
                     </div>
                 </div>
                 <div class="card-content">
-                    <p>Membangun sistem yang otomatis mengirimkan peringatan kepada atasan apabila terjadi transaksi atau aktivitas yang tidak wajar (anomali) di sistem.</p>
-                    
+                    <p>Membangun sistem yang otomatis mengirimkan peringatan kepada atasan apabila terjadi transaksi
+                        atau aktivitas yang tidak wajar (anomali) di sistem.</p>
+
                     <div class="card-image">
                         <img src="public/anomaly_notification.png" alt="Ilustrasi Sistem Notifikasi Anomali">
                     </div>
@@ -1036,7 +1348,8 @@
                     </div>
 
                     <div style="margin-top: 24px;">
-                        <div class="status-badge warning">⚠️ Inisiatif besar - perlu kesiapan matang & perencanaan bertahap</div>
+                        <div class="status-badge warning">⚠️ Inisiatif besar - perlu kesiapan matang & perencanaan
+                            bertahap</div>
                     </div>
                 </div>
             </div>
@@ -1118,15 +1431,19 @@
                     <div class="personal-section">
                         <div class="personal-content">
                             <h3>🌱 Pensiun Muda & Berkebun</h3>
-                            <p>Impian saya adalah <strong>pensiun muda</strong> dan memiliki kesibukan <strong>berkebun bersama istri</strong>. Sebuah kehidupan yang sederhana, bermakna, dan dekat dengan alam.</p>
-                            <div class="status-badge">💰 Fondasi financial harus dibangun dengan kuat terlebih dahulu</div>
+                            <p>Impian saya adalah <strong>pensiun muda</strong> dan memiliki kesibukan <strong>berkebun
+                                    bersama istri</strong>. Sebuah kehidupan yang sederhana, bermakna, dan dekat dengan
+                                alam.</p>
+                            <div class="status-badge">💰 Fondasi financial harus dibangun dengan kuat terlebih dahulu
+                            </div>
                         </div>
                         <div class="personal-image">
                             <img src="public/dream_gardening.png" alt="Ilustrasi Impian Berkebun">
                         </div>
                     </div>
 
-                    <h4 style="margin-top: 48px; margin-bottom: 24px; font-size: 18px; text-align: center;">Pengembangan Skill</h4>
+                    <h4 style="margin-top: 48px; margin-bottom: 24px; font-size: 18px; text-align: center;">Pengembangan
+                        Skill</h4>
                     <div class="skills-grid">
                         <div class="skill-card">
                             <div class="icon">📦</div>
@@ -1147,7 +1464,9 @@
 
                     <div class="quote-section">
                         <blockquote>
-                            "Selama di perusahaan ini, saya akan memberikan yang terbaik. Karena semakin besar kontribusi saya ke perusahaan, semakin banyak yang saya pelajari. Semakin perusahaan maju, semakin saya berkembang."
+                            "Selama di perusahaan ini, saya akan memberikan yang terbaik. Karena semakin besar
+                            kontribusi saya ke perusahaan, semakin banyak yang saya pelajari. Semakin perusahaan maju,
+                            semakin saya berkembang."
                         </blockquote>
                     </div>
                 </div>
@@ -1178,22 +1497,43 @@
             lastScrollY = window.scrollY;
         });
 
-        // Reveal animations on scroll
-        const revealElements = document.querySelectorAll('.reveal');
+        // Reveal animations on scroll - handles all reveal types
+        const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
 
         const revealOnScroll = () => {
             revealElements.forEach(el => {
                 const elementTop = el.getBoundingClientRect().top;
                 const windowHeight = window.innerHeight;
-                
-                if (elementTop < windowHeight - 100) {
+
+                if (elementTop < windowHeight - 80) {
                     el.classList.add('active');
                 }
             });
         };
 
-        window.addEventListener('scroll', revealOnScroll);
+        // Throttle scroll events for better performance
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    revealOnScroll();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
         revealOnScroll(); // Initial check
+
+        // Parallax effect for hero section
+        const hero = document.querySelector('.hero-content');
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            if (hero && scrolled < window.innerHeight) {
+                hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+                hero.style.opacity = 1 - (scrolled / window.innerHeight);
+            }
+        });
 
         // Smooth scroll for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1208,6 +1548,26 @@
                 }
             });
         });
+
+        // Add mouse move parallax effect to cards
+        document.querySelectorAll('.card, .goal-card, .skill-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+            });
+        });
     </script>
 </body>
+
 </html>
