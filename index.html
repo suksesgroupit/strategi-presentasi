@@ -1827,42 +1827,104 @@
             handleMove(e.clientX, e.clientY);
         });
 
-        // Mobile touch events
+        // Mobile touch events - IMPROVED VERSION
+        let touchLastX = 0;
+        let touchLastY = 0;
+        let touchActive = false;
+        let touchTrailPoints = [];
+
         document.addEventListener('touchstart', (e) => {
             const touch = e.touches[0];
-            isDragging = true;
-            dragStartX = touch.clientX;
-            dragStartY = touch.clientY;
-            dragTrail = [{ x: touch.clientX, y: touch.clientY }];
-            lastMouseX = touch.clientX;
-            lastMouseY = touch.clientY;
-            createStars(touch.clientX, touch.clientY, 8);
+            touchActive = true;
+            touchLastX = touch.clientX;
+            touchLastY = touch.clientY;
+            touchTrailPoints = [{ x: touch.clientX, y: touch.clientY }];
+
+            // Burst of stars on touch start
+            for (let i = 0; i < 10; i++) {
+                const star = new Star(touch.clientX, touch.clientY);
+                star.speedX = (Math.random() - 0.5) * 6;
+                star.speedY = (Math.random() - 0.5) * 6;
+                star.size = Math.random() * 4 + 2;
+                stars.push(star);
+            }
         }, { passive: true });
 
         document.addEventListener('touchmove', (e) => {
+            if (!touchActive) return;
+
             const touch = e.touches[0];
-            handleMove(touch.clientX, touch.clientY);
+            const x = touch.clientX;
+            const y = touch.clientY;
+
+            // Calculate distance from last point
+            const dx = x - touchLastX;
+            const dy = y - touchLastY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            // Create stars along the touch path
+            if (distance > 5) {
+                // Add to trail
+                touchTrailPoints.push({ x, y });
+                if (touchTrailPoints.length > 30) {
+                    touchTrailPoints.shift();
+                }
+
+                // Create multiple stars along the movement
+                const numStars = Math.min(Math.floor(distance / 8), 6);
+                for (let i = 0; i < numStars; i++) {
+                    const t = i / numStars;
+                    const starX = touchLastX + dx * t + (Math.random() - 0.5) * 20;
+                    const starY = touchLastY + dy * t + (Math.random() - 0.5) * 20;
+
+                    const star = new Star(starX, starY);
+                    // Stars move perpendicular to touch direction
+                    star.speedX = (Math.random() - 0.5) * 4 - dy * 0.05;
+                    star.speedY = (Math.random() - 0.5) * 4 + dx * 0.05;
+                    star.size = Math.random() * 4 + 2;
+                    stars.push(star);
+                }
+
+                // Create meteor trail effect on longer swipes
+                if (touchTrailPoints.length > 5 && distance > 15) {
+                    const meteor = new Meteor(touchLastX, touchLastY, x, y);
+                    const trailCopy = touchTrailPoints.slice(-15).map(p => ({
+                        x: p.x,
+                        y: p.y,
+                        alpha: 1
+                    }));
+                    meteor.trail = trailCopy;
+                    meteors.push(meteor);
+                }
+
+                touchLastX = x;
+                touchLastY = y;
+            }
         }, { passive: true });
 
         document.addEventListener('touchend', (e) => {
-            if (isDragging && dragTrail.length > 3) {
-                // Create shooting star from drag path
-                const lastPoint = dragTrail[dragTrail.length - 1];
-                const meteor = new Meteor(dragStartX, dragStartY, lastPoint.x, lastPoint.y);
-                meteor.trail = dragTrail.map(p => ({ x: p.x, y: p.y, alpha: 1 }));
-                meteor.maxTrailLength = dragTrail.length;
+            if (touchActive && touchTrailPoints.length > 3) {
+                // Final shooting star from start to end
+                const startPoint = touchTrailPoints[0];
+                const endPoint = touchTrailPoints[touchTrailPoints.length - 1];
+
+                const meteor = new Meteor(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
+                meteor.trail = touchTrailPoints.map(p => ({ x: p.x, y: p.y, alpha: 1 }));
+                meteor.maxTrailLength = touchTrailPoints.length;
                 meteors.push(meteor);
 
-                // Burst of stars at end
-                for (let i = 0; i < 10; i++) {
-                    const star = new Star(lastPoint.x, lastPoint.y);
-                    star.speedX = (Math.random() - 0.5) * 6;
-                    star.speedY = (Math.random() - 0.5) * 6;
+                // Burst of stars at end point
+                for (let i = 0; i < 15; i++) {
+                    const star = new Star(endPoint.x, endPoint.y);
+                    star.speedX = (Math.random() - 0.5) * 8;
+                    star.speedY = (Math.random() - 0.5) * 8;
+                    star.size = Math.random() * 5 + 2;
                     stars.push(star);
                 }
             }
-            isDragging = false;
-            dragTrail = [];
+
+            touchActive = false;
+            touchTrailPoints = [];
         }, { passive: true });
 
         // Click/tap creates burst of stars
