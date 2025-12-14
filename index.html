@@ -1054,24 +1054,43 @@
             position: fixed;
             pointer-events: none;
             z-index: 10000;
-            width: 4px;
-            height: 4px;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 0 0 10px 3px rgba(255, 255, 255, 0.8),
-                0 0 20px 6px rgba(59, 130, 246, 0.5);
-            animation: shoot 0.6s ease-out forwards;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg,
+                    rgba(255, 255, 255, 0) 0%,
+                    rgba(255, 255, 255, 0.4) 30%,
+                    rgba(255, 255, 255, 0.8) 60%,
+                    rgba(255, 255, 255, 1) 100%);
+            border-radius: 100px;
+            transform-origin: right center;
+            animation: shootFall 0.6s ease-out forwards;
+            filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 12px rgba(59, 130, 246, 0.6));
         }
 
-        @keyframes shoot {
+        .shooting-star::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 4px rgba(255, 255, 255, 0.9),
+                0 0 20px 8px rgba(59, 130, 246, 0.6),
+                0 0 30px 12px rgba(139, 92, 246, 0.4);
+        }
+
+        @keyframes shootFall {
             0% {
                 opacity: 1;
-                transform: scale(1);
+                transform: rotate(35deg) translateX(0) scale(1);
             }
 
             100% {
                 opacity: 0;
-                transform: scale(0) translateX(100px) translateY(-50px);
+                transform: rotate(35deg) translateX(150px) scale(0.3);
             }
         }
     </style>
@@ -2144,7 +2163,17 @@
             domTouchX = touch.clientX;
             domTouchY = touch.clientY;
 
-            // Create burst on touch start
+            // Create shooting stars immediately on touch
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    createDOMShootingStar(
+                        touch.clientX + (Math.random() - 0.5) * 50,
+                        touch.clientY + (Math.random() - 0.5) * 50
+                    );
+                }, i * 80);
+            }
+
+            // Create burst sparkles
             for (let i = 0; i < 5; i++) {
                 setTimeout(() => {
                     createDOMSparkle(
@@ -2170,8 +2199,8 @@
                 // Create sparkle trail
                 createDOMTrail(x, y);
 
-                // Create shooting star on fast movement
-                if (distance > 30) {
+                // Create shooting star on movement (lowered threshold for mobile)
+                if (distance > 15) {
                     createDOMShootingStar(x, y);
                 }
 
