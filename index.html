@@ -1567,6 +1567,156 @@
                 card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
             });
         });
+
+        // Star Trail Effect
+        const starTrailCanvas = document.createElement('canvas');
+        starTrailCanvas.id = 'star-trail';
+        starTrailCanvas.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        `;
+        document.body.appendChild(starTrailCanvas);
+
+        const ctx = starTrailCanvas.getContext('2d');
+        let stars = [];
+        let mouseX = 0;
+        let mouseY = 0;
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+
+        function resizeCanvas() {
+            starTrailCanvas.width = window.innerWidth;
+            starTrailCanvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Star {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = (Math.random() - 0.5) * 3;
+                this.speedY = (Math.random() - 0.5) * 3;
+                this.life = 1;
+                this.decay = Math.random() * 0.02 + 0.01;
+                this.color = this.getRandomColor();
+            }
+
+            getRandomColor() {
+                const colors = [
+                    'rgba(59, 130, 246, ',   // blue
+                    'rgba(139, 92, 246, ',   // purple
+                    'rgba(16, 185, 129, ',   // green
+                    'rgba(245, 158, 11, ',   // orange
+                    'rgba(255, 255, 255, ',  // white
+                ];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life -= this.decay;
+                this.size *= 0.98;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.life;
+                ctx.fillStyle = this.color + this.life + ')';
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = this.color + '1)';
+
+                // Draw star shape
+                ctx.beginPath();
+                for (let i = 0; i < 5; i++) {
+                    const angle = (i * 4 * Math.PI) / 5 - Math.PI / 2;
+                    const x = this.x + Math.cos(angle) * this.size;
+                    const y = this.y + Math.sin(angle) * this.size;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.closePath();
+                ctx.fill();
+
+                // Also draw a glowing circle
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size * 0.5, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.restore();
+            }
+        }
+
+        function createStars(x, y, count) {
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star(x + (Math.random() - 0.5) * 20, y + (Math.random() - 0.5) * 20));
+            }
+        }
+
+        function animateStars() {
+            ctx.clearRect(0, 0, starTrailCanvas.width, starTrailCanvas.height);
+
+            stars = stars.filter(star => star.life > 0);
+
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+
+            requestAnimationFrame(animateStars);
+        }
+        animateStars();
+
+        // Mouse move handler
+        let isMoving = false;
+        let moveTimeout;
+
+        function handleMove(x, y) {
+            const distance = Math.sqrt(Math.pow(x - lastMouseX, 2) + Math.pow(y - lastMouseY, 2));
+
+            if (distance > 5) {
+                const count = Math.min(Math.floor(distance / 10), 5);
+                createStars(x, y, count);
+                lastMouseX = x;
+                lastMouseY = y;
+            }
+        }
+
+        // Desktop mouse events
+        document.addEventListener('mousemove', (e) => {
+            handleMove(e.clientX, e.clientY);
+        });
+
+        // Mobile touch events
+        document.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            handleMove(touch.clientX, touch.clientY);
+        }, { passive: true });
+
+        document.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            lastMouseX = touch.clientX;
+            lastMouseY = touch.clientY;
+            createStars(touch.clientX, touch.clientY, 8);
+        }, { passive: true });
+
+        // Click/tap creates burst of stars
+        document.addEventListener('click', (e) => {
+            for (let i = 0; i < 15; i++) {
+                const star = new Star(e.clientX, e.clientY);
+                star.speedX = (Math.random() - 0.5) * 8;
+                star.speedY = (Math.random() - 0.5) * 8;
+                star.size = Math.random() * 5 + 2;
+                stars.push(star);
+            }
+        });
     </script>
 </body>
 
