@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategi Penghematan, Meminimalisir Fraud, dan Goals</title>
+    <meta name="description" content="Dokumen strategi untuk kemajuan perusahaan - Disusun oleh Andri Rosandi">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.5);
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --gradient-1: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            --gradient-2: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+            --gradient-3: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 70%);
+            z-index: -1;
+            animation: bgMove 20s ease-in-out infinite;
+        }
+
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(-20px, 20px); }
+            50% { transform: translate(20px, -20px); }
+            75% { transform: translate(-10px, -10px); }
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 16px 24px;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        nav.visible {
+            transform: translateY(0);
+        }
+
+        nav .nav-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-weight: 700;
+            font-size: 14px;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        nav .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 24px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease 0.1s forwards;
+            opacity: 0;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 48px;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+            opacity: 0;
+        }
+
+        .hero-meta {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.3s forwards;
+            opacity: 0;
+        }
+
+        .hero-meta-item {
+            text-align: center;
+        }
+
+        .hero-meta-item span {
+            display: block;
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .hero-meta-item strong {
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator svg {
+            width: 24px;
+            height: 24px;
+            color: var(--text-muted);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* Section Styles */
+        section {
+            padding: 120px 0;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-icon {
+            font-size: 48px;
+            margin-bottom: 24px;
+            display: block;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .section-title.gradient-blue {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title.gradient-orange {
+            background: var(--gradient-3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title.gradient-green {
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 32px;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .card-number {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .card-number.orange {
+            background: var(--gradient-3);
+        }
+
+        .card-number.green {
+            background: var(--gradient-2);
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .card-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .card-content p {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            font-size: 14px;
+            color: var(--accent-green);
+        }
+
+        .status-badge.warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: rgba(245, 158, 11, 0.3);
+            color: var(--accent-orange);
+        }
+
+        /* Impact Grid */
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .impact-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .impact-item:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .impact-item .icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .impact-item .label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .impact-item .desc {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Image */
+        .card-image {
+            margin-top: 32px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .card-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            margin-top: 32px;
+            overflow: hidden;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .comparison-row.header {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .comparison-cell {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+
+        .comparison-cell:first-child {
+            border-right: 1px solid var(--border-color);
+        }
+
+        .comparison-row:last-child .comparison-cell {
+            border-bottom: none;
+        }
+
+        .comparison-cell.header {
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+        }
+
+        .comparison-cell.before {
+            color: var(--accent-red);
+        }
+
+        .comparison-cell.after {
+            color: var(--accent-green);
+        }
+
+        /* Requirements List */
+        .requirements-list {
+            margin-top: 32px;
+        }
+
+        .requirement-item {
+            display: flex;
+            gap: 16px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            transition: transform 0.3s;
+        }
+
+        .requirement-item:hover {
+            transform: translateX(4px);
+        }
+
+        .requirement-number {
+            width: 32px;
+            height: 32px;
+            background: var(--gradient-1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .requirement-content strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 15px;
+        }
+
+        .requirement-content p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* Goals Grid */
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        @media (max-width: 768px) {
+            .goals-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .goal-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 32px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .goal-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .goal-card .icon {
+            font-size: 36px;
+            margin-bottom: 16px;
+        }
+
+        .goal-card h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .goal-card ul {
+            list-style: none;
+        }
+
+        .goal-card ul li {
+            font-size: 14px;
+            color: var(--text-secondary);
+            padding: 4px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .goal-card ul li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent-blue);
+        }
+
+        /* Personal Goals */
+        .personal-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+            margin-top: 48px;
+        }
+
+        @media (max-width: 768px) {
+            .personal-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .personal-content h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .personal-content p {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .personal-image {
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .personal-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        @media (max-width: 768px) {
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .skill-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .skill-card .icon {
+            font-size: 40px;
+            margin-bottom: 16px;
+        }
+
+        .skill-card h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .skill-card p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Quote */
+        .quote-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 48px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .quote-section blockquote {
+            font-size: 20px;
+            font-style: italic;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Footer */
+        footer {
+            padding: 80px 0;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+
+        footer .author {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        footer .role {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        footer .date {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+            margin: 0 auto;
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+
+    <!-- Navigation -->
+    <nav id="nav">
+        <div class="nav-content">
+            <div class="logo">Strategi & Goals</div>
+            <div class="nav-links">
+                <a href="#penghematan">Penghematan</a>
+                <a href="#fraud">Anti Fraud</a>
+                <a href="#goals">Goals</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">📄 Dokumen Strategi</span>
+            <h1>Strategi Penghematan, Meminimalisir Fraud, dan Goals</h1>
+            <p>Dokumen pemikiran dan kontribusi untuk kemajuan perusahaan, sekaligus refleksi terhadap goals pribadi dan profesional.</p>
+            
+            <div class="hero-meta">
+                <div class="hero-meta-item">
+                    <span>Divisi</span>
+                    <strong>IT</strong>
+                </div>
+                <div class="hero-meta-item">
+                    <span>Disusun Oleh</span>
+                    <strong>Andri Rosandi</strong>
+                </div>
+                <div class="hero-meta-item">
+                    <span>Tanggal</span>
+                    <strong>14 Desember 2025</strong>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scroll-indicator">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+        </div>
+    </section>
+
+    <!-- Section 1: Penghematan -->
+    <section id="penghematan">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-icon">💰</span>
+                <h2 class="section-title gradient-blue">Strategi Penghematan</h2>
+                <p class="section-subtitle">Langkah-langkah efisiensi biaya untuk mendukung pertumbuhan perusahaan</p>
+            </div>
+
+            <!-- Card 1.1 -->
+            <div class="card reveal">
+                <div class="card-header">
+                    <div class="card-number">1.1</div>
+                    <div>
+                        <h3 class="card-title">Jalankan Orlansoft Web</h3>
+                        <p class="card-subtitle">Migrasi dari sistem desktop ke web-based</p>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Perusahaan saat ini masih menggunakan Orlansoft versi desktop yang dirilis pada tahun 2008 dan sudah tidak lagi mendapatkan dukungan resmi dari pengembang. Padahal, perusahaan sudah memiliki lisensi resmi Orlansoft Web yang lebih modern.</p>
+                    
+                    <div class="impact-grid">
+                        <div class="impact-item">
+                            <div class="icon">🌐</div>
+                            <div class="label">Akses Browser</div>
+                            <div class="desc">Tanpa Remote Desktop</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="icon">🔒</div>
+                            <div class="label">Keamanan Modern</div>
+                            <div class="desc">Update & patch terbaru</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="icon">🔗</div>
+                            <div class="label">Integrasi Mudah</div>
+                            <div class="desc">WhatsApp & sistem lain</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="icon">📄</div>
+                            <div class="label">Fitur Lengkap</div>
+                            <div class="desc">DO, Pajak, Akses Gudang</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 32px;">
+                        <div class="status-badge">✅ Orlansoft Web sudah di-setup, dalam proses input data</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 1.2 -->
+            <div class="card reveal">
+                <div class="card-header">
+                    <div class="card-number">1.2</div>
+                    <div>
+                        <h3 class="card-title">Gabungkan Lokasi Server</h3>
+                        <p class="card-subtitle">Konsolidasi infrastruktur ke satu lokasi</p>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Saat ini server perusahaan tersebar di dua lokasi (PIK dan TPI), menimbulkan kebutuhan perawatan ganda dan biaya operasional tinggi. Rekomendasi: pusatkan ke kantor TPI yang sudah memiliki genset dan ruang server proper.</p>
+                    
+                    <div class="card-image">
+                        <img src="public/server_consolidation.png" alt="Ilustrasi Konsolidasi Server">
+                    </div>
+
+                    <div class="impact-grid">
+                        <div class="impact-item">
+                            <div class="icon">⚡</div>
+                            <div class="label">Hemat Listrik</div>
+                            <div class="desc">1 lokasi saja</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="icon">🔧</div>
+                            <div class="label">Maintenance</div>
+                            <div class="desc">Lebih mudah</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="icon">🌐</div>
+                            <div class="label">Jaringan</div>
+                            <div class="desc">Lebih lancar</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="icon">💵</div>
+                            <div class="label">IP Public</div>
+                            <div class="desc">Hemat biaya</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 1.3 -->
+            <div class="card reveal">
+                <div class="card-header">
+                    <div class="card-number">1.3</div>
+                    <div>
+                        <h3 class="card-title">Investasi Server Enterprise</h3>
+                        <p class="card-subtitle">Penghematan jangka panjang</p>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Beberapa layanan masih berjalan di komputer biasa yang difungsikan sebagai server. Dengan investasi server enterprise, seluruh sistem dapat dipusatkan dengan infrastruktur yang kuat, stabil, dan mendukung VM & Docker.</p>
+                    
+                    <div class="impact-grid">
+                        <div class="impact-item">
+                            <div class="icon">🔒</div>
+                            <div class="label">24/7 Operation</div>
+                            <div class="desc">Dirancang non-stop</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="icon">🚀</div>
+                            <div class="label">Performa Tinggi</div>
+                            <div class="desc">Lebih cepat & responsif</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="icon">🛡️</div>
+                            <div class="label">Komponen Stabil</div>
+                            <div class="desc">RAID, ECC RAM</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="icon">📦</div>
+                            <div class="label">VM & Docker</div>
+                            <div class="desc">Multi-service</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 32px;">
+                        <div class="status-badge warning">⚠️ Investasi awal besar, tapi penghematan terus-menerus</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Section 2: Anti Fraud -->
+    <section id="fraud">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-icon">🛡️</span>
+                <h2 class="section-title gradient-orange">Strategi Meminimalisir Fraud</h2>
+                <p class="section-subtitle">Langkah-langkah kontrol dan pencegahan untuk menjaga integritas perusahaan</p>
+            </div>
+
+            <!-- Card 2.1 -->
+            <div class="card reveal">
+                <div class="card-header">
+                    <div class="card-number orange">2.1</div>
+                    <div>
+                        <h3 class="card-title">Jalankan Struktur Organisasi</h3>
+                        <p class="card-subtitle">Sesuai dengan fungsinya</p>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Masih sering terjadi pemberian tugas langsung ke staf tanpa melalui atasan atau koordinator, sehingga pengawasan sulit dan penanggung jawab tidak jelas. Setiap tugas harus disalurkan melalui jalur struktural yang benar.</p>
+                    
+                    <div class="impact-grid">
+                        <div class="impact-item">
+                            <div class="icon">✅</div>
+                            <div class="label">Tugas Jelas</div>
+                            <div class="desc">Pembagian terstruktur</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="icon">👁️</div>
+                            <div class="label">Pengawasan</div>
+                            <div class="desc">Lebih meningkat</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="icon">📋</div>
+                            <div class="label">Akuntabilitas</div>
+                            <div class="desc">Lebih jelas</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="icon">🚫</div>
+                            <div class="label">Fraud</div>
+                            <div class="desc">Lebih sulit dilakukan</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 24px;">
+                        <p style="font-size: 14px; color: var(--text-muted);">💡 <strong>Pendukung:</strong> Dapat dipertimbangkan penggunaan software task management (perlu riset & uji coba)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2.2 -->
+            <div class="card reveal">
+                <div class="card-header">
+                    <div class="card-number orange">2.2</div>
+                    <div>
+                        <h3 class="card-title">Sistem Notifikasi Anomali</h3>
+                        <p class="card-subtitle">Deteksi dini transaksi tidak wajar</p>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Membangun sistem yang otomatis mengirimkan peringatan kepada atasan apabila terjadi transaksi atau aktivitas yang tidak wajar (anomali) di sistem.</p>
+                    
+                    <div class="card-image">
+                        <img src="public/anomaly_notification.png" alt="Ilustrasi Sistem Notifikasi Anomali">
+                    </div>
+
+                    <div class="impact-grid" style="margin-top: 32px;">
+                        <div class="impact-item">
+                            <div class="icon">🌙</div>
+                            <div class="label">Transaksi Luar Jam</div>
+                            <div class="desc">Di waktu tidak biasa</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="icon">🔄</div>
+                            <div class="label">Void Berulang</div>
+                            <div class="desc">Pembatalan berkali-kali</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="icon">📝</div>
+                            <div class="label">Ubah Data Master</div>
+                            <div class="desc">Perubahan mendadak</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="icon">💰</div>
+                            <div class="label">Kas Kecil Besar</div>
+                            <div class="desc">Saldo tidak wajar</div>
+                        </div>
+                    </div>
+
+                    <div class="comparison-table">
+                        <div class="comparison-row header">
+                            <div class="comparison-cell header">Sebelum</div>
+                            <div class="comparison-cell header">Sesudah</div>
+                        </div>
+                        <div class="comparison-row">
+                            <div class="comparison-cell before">Anomali baru diketahui saat audit</div>
+                            <div class="comparison-cell after">Terdeteksi real-time</div>
+                        </div>
+                        <div class="comparison-row">
+                            <div class="comparison-cell before">Atasan tidak tahu aktivitas lapangan</div>
+                            <div class="comparison-cell after">Notifikasi otomatis</div>
+                        </div>
+                        <div class="comparison-row">
+                            <div class="comparison-cell before">Investigasi sulit</div>
+                            <div class="comparison-cell after">Langsung ditindaklanjuti</div>
+                        </div>
+                    </div>
+
+                    <h4 style="margin-top: 32px; margin-bottom: 16px; font-size: 16px;">Syarat Implementasi</h4>
+                    <div class="requirements-list">
+                        <div class="requirement-item">
+                            <div class="requirement-number">1</div>
+                            <div class="requirement-content">
+                                <strong>Migrasi ke Orlansoft Web</strong>
+                                <p>Agar integrasi lebih mudah dan stabil</p>
+                            </div>
+                        </div>
+                        <div class="requirement-item">
+                            <div class="requirement-number">2</div>
+                            <div class="requirement-content">
+                                <strong>Konsultasi Ahli/Profesional</strong>
+                                <p>Kelayakan, kriteria anomali, best practice</p>
+                            </div>
+                        </div>
+                        <div class="requirement-item">
+                            <div class="requirement-number">3</div>
+                            <div class="requirement-content">
+                                <strong>Diskusi dengan Divisi Terkait</strong>
+                                <p>Accounting, Sales, Warehouse</p>
+                            </div>
+                        </div>
+                        <div class="requirement-item">
+                            <div class="requirement-number">4</div>
+                            <div class="requirement-content">
+                                <strong>Uji Kelayakan Sistem</strong>
+                                <p>Pastikan akurasi, hindari false alarm</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 24px;">
+                        <div class="status-badge warning">⚠️ Inisiatif besar - perlu kesiapan matang & perencanaan bertahap</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Section 3: Goals -->
+    <section id="goals">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-icon">🎯</span>
+                <h2 class="section-title gradient-green">Goals</h2>
+                <p class="section-subtitle">Tujuan pribadi dan profesional yang saling mendukung</p>
+            </div>
+
+            <!-- Goals Karyawan -->
+            <div class="card reveal">
+                <div class="card-header">
+                    <div class="card-number green">3.1</div>
+                    <div>
+                        <h3 class="card-title">Goals Sebagai Karyawan</h3>
+                        <p class="card-subtitle">Kontribusi untuk kemajuan perusahaan</p>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="goals-grid">
+                        <div class="goal-card">
+                            <div class="icon">🚀</div>
+                            <h4>Transformasi Digital</h4>
+                            <ul>
+                                <li>Migrasi ke Orlansoft Web</li>
+                                <li>Digitalisasi proses manual</li>
+                                <li>Penerapan paperless</li>
+                            </ul>
+                        </div>
+                        <div class="goal-card">
+                            <div class="icon">🔗</div>
+                            <h4>Aplikasi Terintegrasi</h4>
+                            <ul>
+                                <li>Barcode Shipment</li>
+                                <li>Seal/Unseal Tracking</li>
+                                <li>Reminder System</li>
+                            </ul>
+                        </div>
+                        <div class="goal-card">
+                            <div class="icon">⚙️</div>
+                            <h4>Automation</h4>
+                            <ul>
+                                <li>Notifikasi otomatis</li>
+                                <li>Report terjadwal</li>
+                                <li>Integrasi antar sistem</li>
+                            </ul>
+                        </div>
+                        <div class="goal-card">
+                            <div class="icon">🖥️</div>
+                            <h4>Infrastruktur Handal</h4>
+                            <ul>
+                                <li>Konsolidasi server</li>
+                                <li>Upgrade ke enterprise</li>
+                                <li>Backup & monitoring terpusat</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goals Pribadi -->
+            <div class="card reveal">
+                <div class="card-header">
+                    <div class="card-number green">3.2</div>
+                    <div>
+                        <h3 class="card-title">Goals Sebagai Pribadi</h3>
+                        <p class="card-subtitle">Impian dan aspirasi personal</p>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="personal-section">
+                        <div class="personal-content">
+                            <h3>🌱 Pensiun Muda & Berkebun</h3>
+                            <p>Impian saya adalah <strong>pensiun muda</strong> dan memiliki kesibukan <strong>berkebun bersama istri</strong>. Sebuah kehidupan yang sederhana, bermakna, dan dekat dengan alam.</p>
+                            <div class="status-badge">💰 Fondasi financial harus dibangun dengan kuat terlebih dahulu</div>
+                        </div>
+                        <div class="personal-image">
+                            <img src="public/dream_gardening.png" alt="Ilustrasi Impian Berkebun">
+                        </div>
+                    </div>
+
+                    <h4 style="margin-top: 48px; margin-bottom: 24px; font-size: 18px; text-align: center;">Pengembangan Skill</h4>
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <div class="icon">📦</div>
+                            <h4>Business & Product Development</h4>
+                            <p>Membangun produk dari ide hingga implementasi</p>
+                        </div>
+                        <div class="skill-card">
+                            <div class="icon">💡</div>
+                            <h4>Entrepreneurial Mindset</h4>
+                            <p>Berpikir seperti pemilik bisnis</p>
+                        </div>
+                        <div class="skill-card">
+                            <div class="icon">☁️</div>
+                            <h4>SaaS Development</h4>
+                            <p>Membangun software as a service</p>
+                        </div>
+                    </div>
+
+                    <div class="quote-section">
+                        <blockquote>
+                            "Selama di perusahaan ini, saya akan memberikan yang terbaik. Karena semakin besar kontribusi saya ke perusahaan, semakin banyak yang saya pelajari. Semakin perusahaan maju, semakin saya berkembang."
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p class="author">Andri Rosandi</p>
+            <p class="role">IT Support & Fullstack Developer</p>
+            <p class="date">Desember 2025</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation visibility on scroll
+        const nav = document.getElementById('nav');
+        let lastScrollY = window.scrollY;
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                nav.classList.add('visible');
+            } else {
+                nav.classList.remove('visible');
+            }
+            lastScrollY = window.scrollY;
+        });
+
+        // Reveal animations on scroll
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealOnScroll = () => {
+            revealElements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // Initial check
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

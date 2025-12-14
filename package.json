@@ -3,9 +3,10 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "slidev --open",
-    "build": "slidev build",
-    "export": "slidev export"
+    "dev": "npx serve .",
+    "dev:slides": "slidev --open",
+    "build": "echo 'Static site - no build needed'",
+    "build:slides": "slidev build"
   },
   "dependencies": {
     "@slidev/cli": "^0.50.0",
