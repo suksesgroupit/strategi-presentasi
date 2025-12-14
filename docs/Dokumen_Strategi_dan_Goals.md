@@ -19,7 +19,7 @@
 
 </div>
 
----
+<div style="page-break-after: always;"></div>
 
 ## 1. Strategi Penghematan Perusahaan
 
