@@ -999,6 +999,81 @@
             animation: shimmer 3s linear infinite;
             background-size: 200% auto;
         }
+
+        /* Touch Sparkle Effects */
+        .touch-sparkle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            animation: sparkle-burst 0.8s ease-out forwards;
+        }
+
+        @keyframes sparkle-burst {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.5) rotate(180deg);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(0) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .touch-trail {
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: trail-fade 0.5s ease-out forwards;
+        }
+
+        @keyframes trail-fade {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(0.2) translateY(-20px);
+                opacity: 0;
+            }
+        }
+
+        .shooting-star {
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 3px rgba(255, 255, 255, 0.8),
+                0 0 20px 6px rgba(59, 130, 246, 0.5);
+            animation: shoot 0.6s ease-out forwards;
+        }
+
+        @keyframes shoot {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(0) translateX(100px) translateY(-50px);
+            }
+        }
     </style>
 </head>
 
@@ -2021,6 +2096,119 @@
 
         // Direct scroll listener - no throttling for better responsiveness
         window.addEventListener('scroll', handleScrollEffects, { passive: true });
+
+        // ========== DOM-BASED TOUCH EFFECTS (MOBILE GUARANTEED) ==========
+        const sparkleColors = ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#ffffff'];
+
+        function createDOMSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'touch-sparkle';
+            sparkle.style.left = (x - 10) + 'px';
+            sparkle.style.top = (y - 10) + 'px';
+            sparkle.style.background = `radial-gradient(circle, ${sparkleColors[Math.floor(Math.random() * sparkleColors.length)]} 0%, transparent 70%)`;
+            document.body.appendChild(sparkle);
+
+            setTimeout(() => sparkle.remove(), 800);
+        }
+
+        function createDOMTrail(x, y) {
+            const trail = document.createElement('div');
+            trail.className = 'touch-trail';
+            trail.style.left = (x - 4) + 'px';
+            trail.style.top = (y - 4) + 'px';
+            trail.style.background = sparkleColors[Math.floor(Math.random() * sparkleColors.length)];
+            trail.style.boxShadow = `0 0 10px ${sparkleColors[Math.floor(Math.random() * sparkleColors.length)]}`;
+            document.body.appendChild(trail);
+
+            setTimeout(() => trail.remove(), 500);
+        }
+
+        function createDOMShootingStar(x, y) {
+            const star = document.createElement('div');
+            star.className = 'shooting-star';
+            star.style.left = x + 'px';
+            star.style.top = y + 'px';
+            document.body.appendChild(star);
+
+            setTimeout(() => star.remove(), 600);
+        }
+
+        // Touch handlers for DOM effects
+        let domTouchX = 0;
+        let domTouchY = 0;
+        let domTouchActive = false;
+
+        document.addEventListener('touchstart', (e) => {
+            domTouchActive = true;
+            const touch = e.touches[0];
+            domTouchX = touch.clientX;
+            domTouchY = touch.clientY;
+
+            // Create burst on touch start
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    createDOMSparkle(
+                        touch.clientX + (Math.random() - 0.5) * 40,
+                        touch.clientY + (Math.random() - 0.5) * 40
+                    );
+                }, i * 50);
+            }
+        }, { passive: true });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!domTouchActive) return;
+
+            const touch = e.touches[0];
+            const x = touch.clientX;
+            const y = touch.clientY;
+            const dx = x - domTouchX;
+            const dy = y - domTouchY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            // Create trail effects along the path
+            if (distance > 10) {
+                // Create sparkle trail
+                createDOMTrail(x, y);
+
+                // Create shooting star on fast movement
+                if (distance > 30) {
+                    createDOMShootingStar(x, y);
+                }
+
+                // Extra sparkles
+                if (Math.random() > 0.5) {
+                    createDOMSparkle(
+                        x + (Math.random() - 0.5) * 30,
+                        y + (Math.random() - 0.5) * 30
+                    );
+                }
+
+                domTouchX = x;
+                domTouchY = y;
+            }
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            if (domTouchActive) {
+                // Final burst of sparkles
+                for (let i = 0; i < 8; i++) {
+                    setTimeout(() => {
+                        createDOMSparkle(
+                            domTouchX + (Math.random() - 0.5) * 60,
+                            domTouchY + (Math.random() - 0.5) * 60
+                        );
+                        createDOMShootingStar(
+                            domTouchX + (Math.random() - 0.5) * 40,
+                            domTouchY + (Math.random() - 0.5) * 40
+                        );
+                    }, i * 30);
+                }
+            }
+            domTouchActive = false;
+        }, { passive: true });
+
+        // Debug: log to confirm touch events are working
+        console.log('Touch effects initialized');
     </script>
 </body>
 
