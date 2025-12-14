@@ -62,6 +62,8 @@ Memusatkan seluruh server ke satu lokasi di ruang server TPI yang sudah memiliki
 | **Ruang Server** | Pemanfaatan ruang server di kantor TPI yang lebih proper dan aman |
 | **IP Public** | Jika server pindah ke office TPI maka tidak ada biaya penyewaan IP Public |
 
+![Ilustrasi Konsolidasi Server](../public/server_consolidation.png)
+
 ---
 
 ### 1.3 Investasi Server Besar (Penghematan Jangka Panjang)
@@ -132,6 +134,8 @@ Dapat dipertimbangkan penggunaan **software task management** untuk membantu mon
 **Konsep:**
 
 Membangun sistem yang dapat mengirimkan peringatan otomatis kepada atasan apabila terjadi transaksi atau aktivitas yang tidak wajar (anomali) di sistem.
+
+![Ilustrasi Sistem Notifikasi Anomali](../public/anomaly_notification.png)
 
 **Contoh Anomali yang Dapat Dideteksi:**
 
@@ -208,6 +212,8 @@ Di luar tanggung jawab profesional, saya juga memiliki impian dan goals pribadi 
 #### Impian Jangka Panjang
 
 Impian saya adalah **pensiun muda dan memiliki kesibukan berkebun bersama istri**. Ini adalah visi hidup yang sudah saya dan istri sepakati bersama. Sebuah kehidupan yang sederhana, bermakna, dan dekat dengan alam.
+
+![Ilustrasi Impian Berkebun](../public/dream_gardening.png)
 
 #### Fondasi Menuju Impian
 
