@@ -1,15 +1,14 @@
 {
-  "name": "strategi-presentasi",
-  "type": "module",
+  "name": "vite-temp",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "npx serve .",
-    "dev:slides": "slidev --open",
-    "build": "echo 'Static site - no build needed'",
-    "build:slides": "slidev build"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "dependencies": {
-    "@slidev/cli": "^0.50.0",
-    "@slidev/theme-default": "latest"
+  "devDependencies": {
+    "vite": "^7.2.4"
   }
 }
