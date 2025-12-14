@@ -1877,7 +1877,7 @@
         });
 
         // ========== SCROLL-BASED EFFECTS FOR MOBILE ==========
-        let lastScrollY = window.scrollY;
+        let scrollPosY = window.scrollY;
         let lastScrollTime = Date.now();
         let scrollVelocity = 0;
 
@@ -1885,7 +1885,7 @@
         function handleScroll() {
             const currentScrollY = window.scrollY;
             const currentTime = Date.now();
-            const deltaY = currentScrollY - lastScrollY;
+            const deltaY = currentScrollY - scrollPosY;
             const deltaTime = currentTime - lastScrollTime;
 
             if (deltaTime > 0) {
@@ -1934,7 +1934,7 @@
                 }
             }
 
-            lastScrollY = currentScrollY;
+            scrollPosY = currentScrollY;
             lastScrollTime = currentTime;
         }
 
