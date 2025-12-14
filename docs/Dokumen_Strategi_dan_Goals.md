@@ -1,3 +1,7 @@
+---
+stylesheet: ./pdf-style.css
+---
+
 # Strategi Penghematan, Meminimalisir Fraud, dan Goals
 
 **Divisi:** IT  

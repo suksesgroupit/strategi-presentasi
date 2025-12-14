@@ -1,0 +1,56 @@
+/* PDF Styling untuk Dokumen Strategi */
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+h1, h2, h3, h4 {
+  color: #1a1a2e;
+}
+
+/* QR Code - ukuran kecil */
+img[alt="QR Code"] {
+  width: 120px !important;
+  height: 120px !important;
+}
+
+/* Gambar ilustrasi - ukuran sedang */
+img {
+  max-width: 350px;
+  display: block;
+  margin: 15px auto;
+  border-radius: 8px;
+}
+
+/* Tabel styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 15px 0;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+/* Link styling */
+a {
+  color: #4a90d9;
+  text-decoration: none;
+}
+
+/* Code block */
+code {
+  background-color: #f4f4f4;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
