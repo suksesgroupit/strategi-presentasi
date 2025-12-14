@@ -1,68 +1,138 @@
 /**
- * Shooting Stars Effect
- * Creates shooting star animation on touch/click that follows movement direction
+ * Shooting Stars Effect with Curved Trail
+ * Creates trail that follows exact finger/mouse path - can curve and bend
  */
 
-// Create shooting star with custom angle based on movement direction
-export function createShootingStar(x, y, dx = 1, dy = -1) {
-    const star = document.createElement('div');
+// Trail points storage
+let trailPoints = [];
+const MAX_TRAIL_POINTS = 30;
 
-    // Calculate angle from movement direction (dx, dy)
-    // atan2 gives angle in radians, convert to degrees
-    let angle = Math.atan2(dy, dx) * (180 / Math.PI);
+// Create trail canvas
+let trailCanvas = null;
+let ctx = null;
 
-    // Add small random variation for natural look
-    angle += (Math.random() - 0.5) * 10;
+function initCanvas() {
+    if (trailCanvas) return;
 
-    star.style.cssText = `
+    trailCanvas = document.createElement('canvas');
+    trailCanvas.id = 'trail-canvas';
+    trailCanvas.style.cssText = `
     position: fixed;
-    left: ${x}px;
-    top: ${y}px;
-    width: 80px;
-    height: 2px;
-    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 30%, rgba(255,255,255,0.8) 70%, white 100%);
-    border-radius: 10px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
     z-index: 99999;
-    transform-origin: right center;
-    transform: rotate(${angle}deg);
-    box-shadow: 0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(100,150,255,0.5);
   `;
+    document.body.appendChild(trailCanvas);
 
-    const head = document.createElement('div');
-    head.style.cssText = `
-    position: absolute;
-    right: -3px;
-    top: -3px;
-    width: 8px;
-    height: 8px;
-    background: white;
-    border-radius: 50%;
-    box-shadow: 0 0 10px white, 0 0 20px rgba(100,150,255,0.8), 0 0 30px rgba(150,100,255,0.6);
-  `;
-    star.appendChild(head);
+    ctx = trailCanvas.getContext('2d');
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+}
 
-    document.body.appendChild(star);
+function resizeCanvas() {
+    if (!trailCanvas) return;
+    trailCanvas.width = window.innerWidth;
+    trailCanvas.height = window.innerHeight;
+}
 
-    let opacity = 1;
-    let translateX = 0;
+// Add point to trail
+function addTrailPoint(x, y) {
+    trailPoints.push({
+        x,
+        y,
+        alpha: 1,
+        time: Date.now()
+    });
 
-    function animate() {
-        opacity -= 0.03;
-        translateX += 8;
+    // Keep trail limited
+    if (trailPoints.length > MAX_TRAIL_POINTS) {
+        trailPoints.shift();
+    }
+}
 
-        if (opacity > 0) {
-            star.style.opacity = opacity;
-            star.style.transform = `rotate(${angle}deg) translateX(${translateX}px)`;
-            requestAnimationFrame(animate);
-        } else {
-            star.remove();
+// Draw the curved trail
+function drawTrail() {
+    if (!ctx || trailPoints.length < 2) return;
+
+    ctx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+
+    // Fade out old points
+    const now = Date.now();
+    trailPoints = trailPoints.filter(p => now - p.time < 500);
+
+    if (trailPoints.length < 2) return;
+
+    // Draw gradient trail
+    for (let i = 1; i < trailPoints.length; i++) {
+        const prev = trailPoints[i - 1];
+        const curr = trailPoints[i];
+        const progress = i / trailPoints.length;
+        const alpha = progress * (1 - (now - curr.time) / 500);
+        const width = progress * 6;
+
+        // Main trail line
+        ctx.beginPath();
+        ctx.moveTo(prev.x, prev.y);
+        ctx.lineTo(curr.x, curr.y);
+
+        // Gradient color from blue to white
+        const gradient = ctx.createLinearGradient(prev.x, prev.y, curr.x, curr.y);
+        gradient.addColorStop(0, `rgba(100, 150, 255, ${alpha * 0.5})`);
+        gradient.addColorStop(1, `rgba(255, 255, 255, ${alpha})`);
+
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = width;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.stroke();
+
+        // Glow effect
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = `rgba(100, 150, 255, ${alpha})`;
+    }
+
+    // Draw head (bright dot at the end)
+    if (trailPoints.length > 0) {
+        const head = trailPoints[trailPoints.length - 1];
+        const headAlpha = 1 - (now - head.time) / 500;
+
+        if (headAlpha > 0) {
+            ctx.beginPath();
+            ctx.arc(head.x, head.y, 5, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${headAlpha})`;
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = `rgba(255, 255, 255, ${headAlpha})`;
+            ctx.fill();
         }
     }
 
-    requestAnimationFrame(animate);
+    ctx.shadowBlur = 0;
 }
 
+// Animation loop
+let animationRunning = false;
+
+function animate() {
+    drawTrail();
+
+    if (trailPoints.length > 0) {
+        requestAnimationFrame(animate);
+    } else {
+        animationRunning = false;
+    }
+}
+
+function startAnimation() {
+    if (!animationRunning) {
+        animationRunning = true;
+        animate();
+    }
+}
+
+// Sparkle effect
 export function createSparkle(x, y) {
     const colors = ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#fff'];
     const color = colors[Math.floor(Math.random() * colors.length)];
@@ -86,40 +156,41 @@ export function createSparkle(x, y) {
     let scale = 1;
     let sparkleOpacity = 1;
 
-    function animate() {
+    function animateSparkle() {
         scale += 0.1;
         sparkleOpacity -= 0.05;
 
         if (sparkleOpacity > 0) {
             sparkle.style.transform = `scale(${scale})`;
             sparkle.style.opacity = sparkleOpacity;
-            requestAnimationFrame(animate);
+            requestAnimationFrame(animateSparkle);
         } else {
             sparkle.remove();
         }
     }
 
-    requestAnimationFrame(animate);
+    requestAnimationFrame(animateSparkle);
 }
 
 export function initShootingStars() {
-    let lastTouchX = 0;
-    let lastTouchY = 0;
-    let touchActive = false;
+    initCanvas();
 
-    // Touch start - random direction since no movement yet
+    let isActive = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    // Touch start
     document.addEventListener('touchstart', (e) => {
-        touchActive = true;
+        isActive = true;
         const touch = e.touches[0];
-        lastTouchX = touch.clientX;
-        lastTouchY = touch.clientY;
+        lastX = touch.clientX;
+        lastY = touch.clientY;
 
-        // Initial shooting stars with random diagonal direction
-        createShootingStar(touch.clientX, touch.clientY, 1, -0.5);
-        setTimeout(() => {
-            createShootingStar(touch.clientX + 20, touch.clientY - 10, 1.2, -0.7);
-        }, 100);
+        trailPoints = [];
+        addTrailPoint(touch.clientX, touch.clientY);
+        startAnimation();
 
+        // Create sparkles
         for (let i = 0; i < 4; i++) {
             setTimeout(() => {
                 createSparkle(
@@ -130,84 +201,71 @@ export function initShootingStars() {
         }
     }, { passive: true });
 
-    // Touch move - shooting star follows finger direction
+    // Touch move - add points to trail
     document.addEventListener('touchmove', (e) => {
-        if (!touchActive) return;
+        if (!isActive) return;
 
         const touch = e.touches[0];
-        const dx = touch.clientX - lastTouchX;
-        const dy = touch.clientY - lastTouchY;
+        const dx = touch.clientX - lastX;
+        const dy = touch.clientY - lastY;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance > 15) {
-            // Create shooting star that follows the movement direction
-            createShootingStar(touch.clientX, touch.clientY, dx, dy);
-            createSparkle(touch.clientX, touch.clientY);
+        // Add points frequently for smooth curve
+        if (distance > 5) {
+            addTrailPoint(touch.clientX, touch.clientY);
+            startAnimation();
 
-            lastTouchX = touch.clientX;
-            lastTouchY = touch.clientY;
-        }
-    }, { passive: true });
-
-    // Touch end - burst in last movement direction
-    document.addEventListener('touchend', () => {
-        if (touchActive) {
-            for (let i = 0; i < 3; i++) {
-                setTimeout(() => {
-                    // Random burst directions
-                    const randomDx = (Math.random() - 0.5) * 2;
-                    const randomDy = (Math.random() - 0.5) * 2;
-                    createShootingStar(
-                        lastTouchX + (Math.random() - 0.5) * 60,
-                        lastTouchY + (Math.random() - 0.5) * 60,
-                        randomDx,
-                        randomDy
-                    );
-                }, i * 80);
+            // Occasional sparkle
+            if (Math.random() > 0.7) {
+                createSparkle(touch.clientX, touch.clientY);
             }
+
+            lastX = touch.clientX;
+            lastY = touch.clientY;
         }
-        touchActive = false;
     }, { passive: true });
 
-    // Mouse move for desktop - track movement direction
-    let lastMouseX = 0;
-    let lastMouseY = 0;
-    let mouseDown = false;
+    // Touch end
+    document.addEventListener('touchend', () => {
+        isActive = false;
+        // Trail will fade out automatically
+    }, { passive: true });
 
+    // Mouse support for desktop
     document.addEventListener('mousedown', (e) => {
-        mouseDown = true;
-        lastMouseX = e.clientX;
-        lastMouseY = e.clientY;
-        createShootingStar(e.clientX, e.clientY, 1, -0.5);
+        isActive = true;
+        lastX = e.clientX;
+        lastY = e.clientY;
+
+        trailPoints = [];
+        addTrailPoint(e.clientX, e.clientY);
+        startAnimation();
         createSparkle(e.clientX, e.clientY);
     });
 
     document.addEventListener('mousemove', (e) => {
-        if (!mouseDown) return;
+        if (!isActive) return;
 
-        const dx = e.clientX - lastMouseX;
-        const dy = e.clientY - lastMouseY;
+        const dx = e.clientX - lastX;
+        const dy = e.clientY - lastY;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance > 15) {
-            createShootingStar(e.clientX, e.clientY, dx, dy);
-            createSparkle(e.clientX, e.clientY);
-            lastMouseX = e.clientX;
-            lastMouseY = e.clientY;
+        if (distance > 5) {
+            addTrailPoint(e.clientX, e.clientY);
+            startAnimation();
+
+            if (Math.random() > 0.8) {
+                createSparkle(e.clientX, e.clientY);
+            }
+
+            lastX = e.clientX;
+            lastY = e.clientY;
         }
     });
 
     document.addEventListener('mouseup', () => {
-        mouseDown = false;
+        isActive = false;
     });
 
-    // Simple click also creates star
-    document.addEventListener('click', (e) => {
-        if (!mouseDown) {
-            createShootingStar(e.clientX, e.clientY, 1, -0.5);
-            createSparkle(e.clientX, e.clientY);
-        }
-    });
-
-    console.log('✨ Shooting stars initialized - follows movement direction!');
+    console.log('✨ Curved trail effect initialized - follows finger path!');
 }
