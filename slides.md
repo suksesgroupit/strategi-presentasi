@@ -524,68 +524,44 @@ transition: slide-left
 
 # Syarat Implementasi
 
-<div class="space-y-4 mt-6">
+<div class="grid grid-cols-2 gap-3 mt-4">
 
-<div v-click class="p-4 rounded-xl bg-gradient-to-r from-blue-500/20 to-blue-600/10 border border-blue-500/20 flex items-center gap-4">
-  <span class="text-3xl">1️⃣</span>
+<div v-click class="p-3 rounded-xl bg-gradient-to-r from-blue-500/20 to-blue-600/10 border border-blue-500/20 flex items-center gap-3">
+  <span class="text-2xl">1️⃣</span>
   <div>
-    <strong>Migrasi ke Orlansoft Web</strong>
-    <p class="text-sm opacity-70">Agar integrasi lebih mudah dan stabil</p>
+    <strong class="text-sm">Migrasi ke Orlansoft Web</strong>
+    <p class="text-xs opacity-70">Agar integrasi lebih mudah dan stabil</p>
   </div>
 </div>
 
-<div v-click class="p-4 rounded-xl bg-gradient-to-r from-purple-500/20 to-purple-600/10 border border-purple-500/20 flex items-center gap-4">
-  <span class="text-3xl">2️⃣</span>
+<div v-click class="p-3 rounded-xl bg-gradient-to-r from-purple-500/20 to-purple-600/10 border border-purple-500/20 flex items-center gap-3">
+  <span class="text-2xl">2️⃣</span>
   <div>
-    <strong>Konsultasi Ahli/Profesional</strong>
-    <p class="text-sm opacity-70">Kelayakan, kriteria anomali, best practice</p>
+    <strong class="text-sm">Konsultasi Ahli/Profesional</strong>
+    <p class="text-xs opacity-70">Kelayakan, kriteria anomali, best practice</p>
   </div>
 </div>
 
-<div v-click class="p-4 rounded-xl bg-gradient-to-r from-green-500/20 to-green-600/10 border border-green-500/20 flex items-center gap-4">
-  <span class="text-3xl">3️⃣</span>
+<div v-click class="p-3 rounded-xl bg-gradient-to-r from-green-500/20 to-green-600/10 border border-green-500/20 flex items-center gap-3">
+  <span class="text-2xl">3️⃣</span>
   <div>
-    <strong>Diskusi dengan Divisi Terkait</strong>
-    <p class="text-sm opacity-70">Accounting, Sales, Warehouse - tentukan kriteria relevan</p>
+    <strong class="text-sm">Diskusi dengan Divisi Terkait</strong>
+    <p class="text-xs opacity-70">Accounting, Sales, Warehouse</p>
   </div>
 </div>
 
-<div v-click class="p-4 rounded-xl bg-gradient-to-r from-orange-500/20 to-orange-600/10 border border-orange-500/20 flex items-center gap-4">
-  <span class="text-3xl">4️⃣</span>
+<div v-click class="p-3 rounded-xl bg-gradient-to-r from-orange-500/20 to-orange-600/10 border border-orange-500/20 flex items-center gap-3">
+  <span class="text-2xl">4️⃣</span>
   <div>
-    <strong>Uji Kelayakan Sistem</strong>
-    <p class="text-sm opacity-70">Pastikan akurasi, hindari false alarm</p>
+    <strong class="text-sm">Uji Kelayakan Sistem</strong>
+    <p class="text-xs opacity-70">Pastikan akurasi, hindari false alarm</p>
   </div>
 </div>
 
 </div>
 
-</div>
-
----
-transition: fade
----
-
-<style>
-.slidev-layout {
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-}
-</style>
-
-<div class="absolute inset-0 bg-gradient-to-br from-yellow-900/20 via-transparent to-orange-900/20"></div>
-
-<div class="relative z-10 flex items-center justify-center h-full">
-
-<div class="p-8 rounded-2xl bg-gradient-to-br from-yellow-500/20 to-orange-500/10 border border-yellow-500/20 max-w-2xl text-center">
-  <div class="text-5xl mb-4">⚠️</div>
-  <h2 class="text-2xl font-bold mb-4">Catatan Penting</h2>
-  <p class="opacity-90 leading-relaxed">
-    Implementasi sistem notifikasi anomali merupakan inisiatif yang <strong>cukup besar dan kompleks</strong>. 
-    Diperlukan <strong>kesiapan yang matang</strong> dari berbagai aspek - teknis, organisasi, maupun sumber daya.
-  </p>
-  <p class="opacity-70 mt-4 text-sm">
-    Ini bukan proyek yang bisa dilakukan secara terburu-buru, melainkan perlu perencanaan dan eksekusi bertahap.
-  </p>
+<div v-click class="mt-4 p-3 rounded-xl bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/20 text-center text-sm">
+  ⚠️ <strong>Catatan:</strong> Ini inisiatif besar, perlu kesiapan matang & perencanaan bertahap
 </div>
 
 </div>
