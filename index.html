@@ -1875,6 +1875,111 @@
                 stars.push(star);
             }
         });
+
+        // ========== SCROLL-BASED EFFECTS FOR MOBILE ==========
+        let lastScrollY = window.scrollY;
+        let lastScrollTime = Date.now();
+        let scrollVelocity = 0;
+
+        // Create shooting stars on scroll
+        function handleScroll() {
+            const currentScrollY = window.scrollY;
+            const currentTime = Date.now();
+            const deltaY = currentScrollY - lastScrollY;
+            const deltaTime = currentTime - lastScrollTime;
+
+            if (deltaTime > 0) {
+                scrollVelocity = Math.abs(deltaY) / deltaTime * 50;
+            }
+
+            // Create stars based on scroll velocity
+            if (Math.abs(deltaY) > 2) {
+                const numStars = Math.min(Math.floor(scrollVelocity / 2), 8);
+
+                for (let i = 0; i < numStars; i++) {
+                    // Random position across the screen
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * window.innerHeight;
+
+                    const star = new Star(x, y);
+                    // Make stars move in scroll direction
+                    star.speedY = deltaY > 0 ? -Math.random() * 3 - 1 : Math.random() * 3 + 1;
+                    star.speedX = (Math.random() - 0.5) * 4;
+                    star.size = Math.random() * 3 + 1;
+                    stars.push(star);
+                }
+
+                // Create meteor on fast scroll
+                if (scrollVelocity > 15) {
+                    const meteorX = Math.random() * window.innerWidth;
+                    const meteorY = window.innerHeight / 2;
+                    const meteor = new Meteor(
+                        meteorX,
+                        deltaY > 0 ? 0 : window.innerHeight,
+                        meteorX + (Math.random() - 0.5) * 200,
+                        deltaY > 0 ? window.innerHeight : 0
+                    );
+
+                    // Create trail points
+                    const trailLength = 15;
+                    for (let i = 0; i < trailLength; i++) {
+                        const progress = i / trailLength;
+                        meteor.trail.push({
+                            x: meteor.startX + (meteor.endX - meteor.startX) * progress * 0.3,
+                            y: meteor.startY + (meteor.endY - meteor.startY) * progress * 0.3,
+                            alpha: progress
+                        });
+                    }
+                    meteors.push(meteor);
+                }
+            }
+
+            lastScrollY = currentScrollY;
+            lastScrollTime = currentTime;
+        }
+
+        // Throttled scroll listener
+        let scrollTicking = false;
+        window.addEventListener('scroll', () => {
+            if (!scrollTicking) {
+                window.requestAnimationFrame(() => {
+                    handleScroll();
+                    scrollTicking = false;
+                });
+                scrollTicking = true;
+            }
+        }, { passive: true });
+
+        // Side shooting stars on scroll (edge decoration)
+        let lastEdgeStarTime = 0;
+        window.addEventListener('scroll', () => {
+            const now = Date.now();
+            if (now - lastEdgeStarTime > 100 && Math.abs(scrollVelocity) > 5) {
+                lastEdgeStarTime = now;
+
+                // Left edge star
+                if (Math.random() > 0.5) {
+                    const y = Math.random() * window.innerHeight;
+                    for (let i = 0; i < 3; i++) {
+                        const star = new Star(0, y + (Math.random() - 0.5) * 50);
+                        star.speedX = Math.random() * 3 + 2;
+                        star.speedY = (Math.random() - 0.5) * 2;
+                        stars.push(star);
+                    }
+                }
+
+                // Right edge star
+                if (Math.random() > 0.5) {
+                    const y = Math.random() * window.innerHeight;
+                    for (let i = 0; i < 3; i++) {
+                        const star = new Star(window.innerWidth, y + (Math.random() - 0.5) * 50);
+                        star.speedX = -(Math.random() * 3 + 2);
+                        star.speedY = (Math.random() - 0.5) * 2;
+                        stars.push(star);
+                    }
+                }
+            }
+        }, { passive: true });
     </script>
 </body>
 
