@@ -13,7 +13,9 @@
 
 **📱 Scan untuk pengalaman membaca lebih menyenangkan**
 
-*Buka versi web interaktif dengan animasi dan efek visual*
+*Atau buka langsung:* [https://strategi-presentasi-rho.vercel.app](https://strategi-presentasi-rho.vercel.app)
+
+*Versi web interaktif dengan animasi dan efek visual*
 
 </div>
 
